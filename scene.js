@@ -29,6 +29,7 @@ class Sphere extends Object {
         const delta = b * b - 4 * a * c;
 
 
+        this.delta = delta;
         return delta >= this.rayon;
     }
 }
@@ -45,18 +46,25 @@ export default class Scene {
     addSphere() {
         const red = new Color(255, 0, 0, 255);
         const green = new Color(0, 255, 0, 255);
-        this.objects.push(new Sphere(0, 0, 1000, 100, red));
+        this.objects.push(new Sphere(0, 0, 1000, 150, red));
         this.objects.push(new Sphere(0, 100, 1000, 100, green));
     }
 
     getColor(ray) {
+        let object;
+
+
         for (let i = 0; i < this.objects.length; i++) {
-            if (this.objects[i].colides(ray)) {
-                return this.objects[i].color;
+            const colide = this.objects[i].colides(ray);
+            if (colide && (object === undefined || object.delta < this.objects[i].delta)) {
+                object = this.objects[i];
             }
         }
 
-        return new Color(0, 0, 0, 255);
+        if (object === undefined) {
+            return new Color(0, 0, 0, 255);
+        }
+        return object.color;
     }
 
 }

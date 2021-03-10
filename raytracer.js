@@ -40,16 +40,16 @@ class Raytracer {
     }
 
 
-    refreshRaycasting() {
+    refreshRaycasting(ctx) {
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
-                this.refreshPixel(x, y);
+                this.refreshPixel(x, y, ctx);
             }
         }
         console.log("finish");
     }
 
-    refreshPixel(x, y) {
+    refreshPixel(x, y, ctx) {
         const camPosition = new Point(0, 0, 0);
         const pixelPosition = new Point(camPosition.x - width / 2 + x, camPosition.y - height / 2 + y, width);
         const ray = new Ray(camPosition, pixelPosition);
@@ -72,7 +72,7 @@ class Raytracer {
     }
 
     click(x, y, ctx) {
-        this.refreshRaycasting();
+        this.refreshRaycasting(ctx);
         // const color = new Color(0, 255, 0, 255);
         // this.setColor(x, y, color);
     }
